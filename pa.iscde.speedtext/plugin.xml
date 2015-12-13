@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="sortlist" name="Sort List" schema="schema/sortlist.exsd"/>
    <extension
          id="id1"
          name="name"

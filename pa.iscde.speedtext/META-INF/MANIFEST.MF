@@ -16,4 +16,5 @@ Import-Package: org.eclipse.jdt.core.compiler,
  org.eclipse.jdt.core.dom,
  org.eclipse.jdt.internal.compiler,
  pt.iscte.pidesco.javaeditor.service
+Export-Package: pa.iscde.speedtext
 

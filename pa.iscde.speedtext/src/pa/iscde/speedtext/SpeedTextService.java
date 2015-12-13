@@ -202,7 +202,7 @@ public class SpeedTextService implements PidescoView {
 	public void SortList(List list){
 		String[] aux = list.getItems();
 		list.removeAll();
-		for (int x = aux.length-1; x>=-1 ; x--){
+		for (int x = aux.length-1; x>-1 ; x--){
 			list.add(aux[x]);
 		}
 	}
