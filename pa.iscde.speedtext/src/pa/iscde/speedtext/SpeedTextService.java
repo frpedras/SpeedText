@@ -76,12 +76,46 @@ public class SpeedTextService implements PidescoView {
 					
 					//Fields
 					public boolean visit(final FieldDeclaration node){
-						if (!findpoint) {
-							String[] simples= node.toString().replaceAll("[;\\&]", "").split("=")[0].split(" ");
-							if (simples[simples.length-1].contains(filter))
+						String[] simples= node.toString().replaceAll("[;\\&]", "").split("=")[0].split(" ");
+						if (!findpoint && simples[simples.length-1].contains(filter))
 								sugestionList.add(simples[simples.length-1]);
-						}else if(findpoint){
+						else if(temp.equals(simples[simples.length-1]) &&findpoint){
 							
+							pbservices.getRootPackage().traverse(new Visitor(){
+								@Override
+								public boolean visitPackage(
+										pt.iscte.pidesco.projectbrowser.model.PackageElement packageElement) {
+									return true;
+								}
+								@Override
+								public void visitClass(ClassElement classElement) {
+									if(classElement.getName().equals(node.getType().toString()+".java")){
+										File tempfile=classElement.getFile();
+										jeServices.parseFile(tempfile, new ASTVisitor() {
+											public boolean visit(MethodDeclaration node) {
+												if(!node.isConstructor() && (node.modifiers().get(0).toString()).equals("public") && node.getName().toString().substring(0,filter.length()).equals(filter)){
+
+													if(node.parameters().size()!=0){
+														String parameters="";
+														int i=0;
+														for(Object p:node.parameters()){
+															if(i>0 && i<node.parameters().size())
+																parameters += ", "+p.toString();
+															else
+																parameters += p.toString();
+															i++;
+														}
+														sugestionList.add(node.getName().toString()+"("+parameters+")");
+													}else
+														sugestionList.add(node.getName().toString()+"()");
+
+												}
+												return true;
+											}
+										});
+									}
+								}
+							});
 						}
 						return true;
 					}
