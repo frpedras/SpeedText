@@ -1,6 +1,8 @@
 package pa.iscde.speedtext;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
@@ -31,12 +33,9 @@ public class SpeedTextService implements PidescoView {
 	private boolean findpoint;
 	private String filter="";
 
-	//	public SpeedTextService() {
-	//	}
 
 	@Override
 	public void createContents(final Composite viewArea, Map<String, Image> imageMap) {
-
 
 		jeServices = Activator.getActivator().getJavaEditorservice(); 
 		pbservices = Activator.getActivator().getProjectBrowserServices();
@@ -75,9 +74,9 @@ public class SpeedTextService implements PidescoView {
 					public boolean visit(final FieldDeclaration node){
 						String[] simples= node.toString().replaceAll("[;\\&]", "").split("=")[0].split(" ");
 						if (!findpoint && simples[simples.length-1].contains(filter))
-								sugestionList.add(simples[simples.length-1]);
+							sugestionList.add(simples[simples.length-1]);
 						else if(temp.equals(simples[simples.length-1]) &&findpoint){
-						
+
 							pbservices.getRootPackage().traverse(new Visitor(){
 								@Override
 								public boolean visitPackage(
@@ -105,7 +104,6 @@ public class SpeedTextService implements PidescoView {
 														sugestionList.add(node.getName().toString()+"("+parameters+")");
 													}else
 														sugestionList.add(node.getName().toString()+"()");
-
 												}
 												return true;
 											}
@@ -118,6 +116,7 @@ public class SpeedTextService implements PidescoView {
 					}
 					//--- codigo apagado
 				});
+				SortList(sugestionList);
 			}
 		});
 
@@ -195,8 +194,17 @@ public class SpeedTextService implements PidescoView {
 				}
 			}
 		}
-		System.out.println("filtro: "+filter);
 		return s;
 	}
 
+	
+	//Extension point: Pedras
+	public void SortList(List list){
+		String[] aux = list.getItems();
+		list.removeAll();
+		for (String x : list.getItems()){
+			System.out.println(x);
+		}
+		
+	}
 }
