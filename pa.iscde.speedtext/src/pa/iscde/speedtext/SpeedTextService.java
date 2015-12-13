@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Map;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.swt.SWT;
@@ -64,14 +65,29 @@ public class SpeedTextService implements PidescoView {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				sugestionList.removeAll();
-
+				filter="";
 				final String temp= findVarible();
 
 				// Encontrar a Class da Variavel			
 				jeServices.parseFile(file, new ASTVisitor() {
 					@Override
+					
+					
+					//Fields
+					public boolean visit(final FieldDeclaration node){
+						if (!findpoint) {
+							String[] simples= node.toString().replaceAll("[;\\&]", "").split("=")[0].split(" ");
+							if (simples[simples.length-1].contains(filter))
+								sugestionList.add(simples[simples.length-1]);
+						}else if(findpoint){
+							
+						}
+						return true;
+					}
+					
+					//
 					public boolean visit(final VariableDeclarationStatement node) {
-
+						
 						//Sugere metodos
 						if (temp.equals(node.fragments().get(0).toString().split("=")[0]) && findpoint) {
 							pbservices.getRootPackage().traverse(new Visitor(){
@@ -111,9 +127,10 @@ public class SpeedTextService implements PidescoView {
 							});
 
 							//Sugere variaveis
-						}else if((node.fragments().get(0).toString().split("=")[0]).contains(temp)){
-							sugestionList.add((node.fragments().get(0).toString().split("=")[0]));
 						}
+//							else if((node.fragments().get(0).toString().split("=")[0]).contains(temp)){
+//							sugestionList.add((node.fragments().get(0).toString().split("=")[0]));
+//						}
 						return true;
 
 					}
