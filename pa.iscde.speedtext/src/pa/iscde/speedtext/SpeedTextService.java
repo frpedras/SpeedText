@@ -80,7 +80,7 @@ public class SpeedTextService implements PidescoView {
 						if (!findpoint && simples[simples.length-1].contains(filter))
 								sugestionList.add(simples[simples.length-1]);
 						else if(temp.equals(simples[simples.length-1]) &&findpoint){
-							
+							//ja esta
 							pbservices.getRootPackage().traverse(new Visitor(){
 								@Override
 								public boolean visitPackage(
