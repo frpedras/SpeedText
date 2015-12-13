@@ -118,6 +118,7 @@ public class SpeedTextService implements PidescoView {
 					}
 					//--- codigo apagado
 				});
+				extraInfo(sugestionList);
 			}
 		});
 
@@ -127,7 +128,7 @@ public class SpeedTextService implements PidescoView {
 			public void widgetSelected(SelectionEvent arg0) {
 
 				final int cursorpoint = jeServices.getCursorPosition();
-				jeServices.insertText(file, sugestionList.getItem(sugestionList.getSelectionIndex()), cursorpoint-filter.length(), filter.length());
+				jeServices.insertText(file, sugestionList.getItem(sugestionList.getSelectionIndex()).split("-")[0], cursorpoint-filter.length(), filter.length());
 				sugestionList.removeAll();
 				filter="";
 			}
@@ -137,6 +138,13 @@ public class SpeedTextService implements PidescoView {
 		});
 	}
 
+	public void extraInfo(List list){
+		String[]temparray = list.getItems();
+		list.removeAll();
+		for(int i=0; i<temparray.length-1;i++){
+			list.add(temparray[i]+" - "+"banana");
+		}
+	}
 
 	// Encontra a variavel antes do '.'
 	private String findVarible() {
@@ -195,7 +203,6 @@ public class SpeedTextService implements PidescoView {
 				}
 			}
 		}
-		System.out.println("filtro: "+filter);
 		return s;
 	}
 
