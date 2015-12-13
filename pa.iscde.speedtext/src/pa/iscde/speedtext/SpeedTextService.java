@@ -137,14 +137,6 @@ public class SpeedTextService implements PidescoView {
 		});
 	}
 
-	public void extraInfo(List list){
-		String[]temparray = list.getItems();
-		list.removeAll();
-		for(int i=0; i<temparray.length-1;i++){
-			list.add(temparray[i]+" - "+"banana");
-		}
-	}
-
 	// Encontra a variavel antes do '.'
 	private String findVarible() {
 		final int cursorpoint = jeServices.getCursorPosition();
@@ -205,14 +197,22 @@ public class SpeedTextService implements PidescoView {
 		return s;
 	}
 
-	
+
 	//Extension point: Pedras
 	public void SortList(List list){
 		String[] aux = list.getItems();
 		list.removeAll();
-		for (String x : list.getItems()){
-			System.out.println(x);
+		for (int x = aux.length-1; x>=-1 ; x--){
+			list.add(aux[x]);
 		}
-		
+	}
+
+	//Extension point: Jorge
+	public void extraInfo(List list){
+		String[]temparray = list.getItems();
+		list.removeAll();
+		for(int i=0; i<temparray.length-1;i++){
+			list.add(temparray[i]+" - "+"banana");
+		}
 	}
 }
