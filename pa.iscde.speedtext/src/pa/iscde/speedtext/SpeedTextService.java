@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Map;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.swt.SWT;
@@ -64,12 +65,27 @@ public class SpeedTextService implements PidescoView {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				sugestionList.removeAll();
-
+				filter="";
 				final String temp= findVarible();
 
 				// Encontrar a Class da Variavel			
 				jeServices.parseFile(file, new ASTVisitor() {
 					@Override
+
+
+					//Fields
+					public boolean visit(final FieldDeclaration node){
+						if (!findpoint) {
+							String[] simples= node.toString().replaceAll("[;\\&]", "").split("=")[0].split(" ");
+							if (simples[simples.length-1].contains(filter))
+								sugestionList.add(simples[simples.length-1]);
+						}else if(findpoint){
+
+						}
+						return true;
+					}
+
+					//
 					public boolean visit(final VariableDeclarationStatement node) {
 
 						//Sugere metodos
@@ -87,7 +103,7 @@ public class SpeedTextService implements PidescoView {
 										jeServices.parseFile(tempfile, new ASTVisitor() {
 											public boolean visit(MethodDeclaration node) {
 												if(!node.isConstructor() && (node.modifiers().get(0).toString()).equals("public") && node.getName().toString().substring(0,filter.length()).equals(filter)){
-													
+
 													if(node.parameters().size()!=0){
 														String parameters="";
 														int i=0;
@@ -111,9 +127,10 @@ public class SpeedTextService implements PidescoView {
 							});
 
 							//Sugere variaveis
-						}else if((node.fragments().get(0).toString().split("=")[0]).contains(temp)){
-							sugestionList.add((node.fragments().get(0).toString().split("=")[0]));
 						}
+						//							else if((node.fragments().get(0).toString().split("=")[0]).contains(temp)){
+						//							sugestionList.add((node.fragments().get(0).toString().split("=")[0]));
+						//						}
 						return true;
 
 					}
@@ -145,7 +162,7 @@ public class SpeedTextService implements PidescoView {
 		String s = jeServices.getTextSelected(file).getText();
 		char[] charSa = s.toCharArray();
 		findpoint = false;
-		
+
 
 		//Selecciona só a linha
 		if(charSa.length>0){
@@ -159,7 +176,7 @@ public class SpeedTextService implements PidescoView {
 					break;
 				}
 			}
-			
+
 			for (int finChar = charSa.length - 1; finChar > 0; finChar--) {
 
 				//Selecciona a Variavel antes do ponto
@@ -179,8 +196,8 @@ public class SpeedTextService implements PidescoView {
 					}else{
 						filter += charSa[finChar];						
 					}
-					
-				//Selecciona linha sem o ponto
+
+					//Selecciona linha sem o ponto
 				}else{
 					int inichar = finChar;
 					while (charSa[inichar] != ' ' && charSa[inichar] != ';' && charSa[inichar] != '{'
@@ -200,4 +217,3 @@ public class SpeedTextService implements PidescoView {
 	}
 
 }
-
