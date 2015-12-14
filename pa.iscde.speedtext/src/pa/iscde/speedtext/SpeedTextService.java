@@ -114,7 +114,56 @@ public class SpeedTextService implements PidescoView {
 						}
 						return true;
 					}
-					//--- codigo apagado
+
+					//--- codigo restaurado, melhorar isto
+					public boolean visit(final VariableDeclarationStatement node) {
+
+						//Sugere metodos
+						if (temp.equals(node.fragments().get(0).toString().split("=")[0]) && findpoint) {
+							pbservices.getRootPackage().traverse(new Visitor(){
+								@Override
+								public boolean visitPackage(
+										pt.iscte.pidesco.projectbrowser.model.PackageElement packageElement) {
+									return true;
+								}
+								@Override
+								public void visitClass(ClassElement classElement) {
+									if(classElement.getName().equals(node.getType().toString()+".java")){
+										File tempfile=classElement.getFile();
+										jeServices.parseFile(tempfile, new ASTVisitor() {
+											public boolean visit(MethodDeclaration node) {
+												if(!node.isConstructor() && (node.modifiers().get(0).toString()).equals("public") && node.getName().toString().substring(0,filter.length()).equals(filter)){
+
+													if(node.parameters().size()!=0){
+														String parameters="";
+														int i=0;
+														for(Object p:node.parameters()){
+															if(i>0 && i<node.parameters().size())
+																parameters += ", "+p.toString();
+															else
+																parameters += p.toString();
+															i++;
+														}
+														sugestionList.add(node.getName().toString()+"("+parameters+")");
+													}else
+														sugestionList.add(node.getName().toString()+"()");
+
+												}
+												return true;
+											}
+										});
+									}
+								}
+							});
+
+							//Sugere variaveis
+						}
+						else if((node.fragments().get(0).toString().split("=")[0]).contains(temp)){
+							sugestionList.add((node.fragments().get(0).toString().split("=")[0]));
+						}
+						return true;
+
+					}
 				});
 				SortList(sugestionList);
 				extraInfo(sugestionList);
