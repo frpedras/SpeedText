@@ -10,5 +10,11 @@
             class="pa.iscde.speedtext.SpeedTextService">
       </view>
    </extension>
+   <extension
+         point="pa.iscde.speedtext.sortlist">
+      <sortlist
+            class="pa.iscde.speedtext.SpeedTextSortList">
+      </sortlist>
+   </extension>
 
 </plugin>

@@ -1,10 +1,15 @@
 package pa.iscde.speedtext;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Map;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
@@ -26,17 +31,52 @@ import pt.iscte.pidesco.projectbrowser.model.PackageElement.Visitor;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
 public class SpeedTextService implements PidescoView {
+	
+	private static SpeedTextService speedtext;
 
 	private JavaEditorServices jeServices;
 	private ProjectBrowserServices pbservices;
 	private File file;
 	private boolean findpoint;
 	private String filter="";
+	List sugestionList;
+	
+	IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
+	IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.test.textext");
+	private LinkedList<SpeedTextSortList> extensionResult = new LinkedList<SpeedTextSortList>();
 
 
 	@Override
 	public void createContents(final Composite viewArea, Map<String, Image> imageMap) {
 
+//		IExtension[] extensions = extensionPoint.getExtensions();
+//		for(IExtension e : extensions) {
+//		    IConfigurationElement[] confElements = e.getConfigurationElements();
+//		    for(IConfigurationElement c : confElements) {
+//		        String s = c.getAttribute("name");
+//		        System.out.println(s);
+//		        try {
+//		            Object o = (SpeedTextSortList)c.createExecutableExtension("class");
+//		        } catch (CoreException e1) {
+//		            System.out.println("Não achou nenhum extension point!");
+//		        }
+//		    }
+//		}
+		
+		IExtension[] extensions = extensionPoint.getExtensions();
+		for (IExtension e : extensions) {
+			IConfigurationElement[] confElements = e.getConfigurationElements();
+			for (IConfigurationElement c : confElements) {
+				try {
+					extensionResult.add((SpeedTextSortList) c.createExecutableExtension("class"));
+					System.out.println("Nome: " + c.getName());
+				} catch (CoreException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		}
+		
 		jeServices = Activator.getActivator().getJavaEditorservice(); 
 		pbservices = Activator.getActivator().getProjectBrowserServices();
 
@@ -45,7 +85,7 @@ public class SpeedTextService implements PidescoView {
 		viewArea.setLayout(new GridLayout(2, false));
 		final Button button = new Button(viewArea, SWT.PUSH);
 		button.setText("Suggest");
-		final List sugestionList = new List(viewArea, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.WRAP);
+		sugestionList = new List(viewArea, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.WRAP);
 		GridData gridData = new GridData();
 		gridData.horizontalSpan = 2;
 		gridData.horizontalAlignment = SWT.FILL;
@@ -165,7 +205,9 @@ public class SpeedTextService implements PidescoView {
 
 					}
 				});
-				SortList(sugestionList);
+				
+				new TestSortList().SortList(sugestionList);
+				
 				extraInfo(sugestionList);
 			}
 		});
@@ -246,16 +288,6 @@ public class SpeedTextService implements PidescoView {
 		return s;
 	}
 
-
-	//Extension point: Pedras
-	public void SortList(List list){
-		String[] aux = list.getItems();
-		list.removeAll();
-		for (int x = aux.length-1; x>-1 ; x--){
-			list.add(aux[x]);
-		}
-	}
-
 	//Extension point: Jorge
 	public void extraInfo(List list){
 		String[]temparray = list.getItems();
@@ -263,5 +295,13 @@ public class SpeedTextService implements PidescoView {
 		for(int i=0; i<temparray.length-1;i++){
 			list.add(temparray[i]+" - "+"banana");
 		}
+	}
+	
+	protected List getList(){
+		return sugestionList;
+	}
+	
+	protected static SpeedTextService getSpeedTextService() {
+		return speedtext;
 	}
 }
