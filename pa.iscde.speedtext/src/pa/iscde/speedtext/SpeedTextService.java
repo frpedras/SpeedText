@@ -43,7 +43,7 @@ public class SpeedTextService implements PidescoView {
 	
 	IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 	IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.speedtext.sortlist");
-	private LinkedList<SpeedTextSortList> extensionResult = new LinkedList<SpeedTextSortList>();
+	private LinkedList<SpeedTextSortList> extensionResultSortList = new LinkedList<SpeedTextSortList>();
 
 
 	@Override
@@ -57,7 +57,7 @@ public class SpeedTextService implements PidescoView {
 			System.out.println("Sorts apanhados - " + confElements.length);
 			for (IConfigurationElement c : confElements) {
 				try {
-					extensionResult.add((SpeedTextSortList) c.createExecutableExtension("class"));
+					extensionResultSortList.add((SpeedTextSortList) c.createExecutableExtension("class"));
 					System.out.println("Nome: " + c.getName());
 				} catch (CoreException e1) {
 					e1.printStackTrace();
@@ -196,6 +196,7 @@ public class SpeedTextService implements PidescoView {
 				});
 				
 				//new TestSortList().sortList(sugestionList);
+				sortlist();
 				
 				extraInfo(sugestionList);
 			}
@@ -286,6 +287,10 @@ public class SpeedTextService implements PidescoView {
 		}
 	}
 	
+	private void sortlist() {
+		extensionResultSortList.get(0).sortList();	
+	}
+
 	protected List getList(){
 		return sugestionList;
 	}
@@ -293,4 +298,6 @@ public class SpeedTextService implements PidescoView {
 	protected static SpeedTextService getSpeedTextService() {
 		return speedtext;
 	}
+
+
 }

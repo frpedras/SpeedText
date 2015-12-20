@@ -94,12 +94,12 @@ public class ExtensionPointsView implements PidescoView {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//IExtensionPoint extPoint = extRegistry.getExtensionPoint(combo.getText());
-				//IExtension[] extensions = extPoint.getExtensions();
-				//table.setInput(extensions);
-				Service s = Activator.getTestActivator().getSpeedTestService();
-				ArrayList list = s.getList();
-				System.out.println(list.toString());
+				IExtensionPoint extPoint = extRegistry.getExtensionPoint(combo.getText());
+				IExtension[] extensions = extPoint.getExtensions();
+				table.setInput(extensions);
+//				Service s = Activator.getTestActivator().getSpeedTestService();
+//				ArrayList list = s.getList();
+//				System.out.println(list.toString());
 			}
 		});
 	}
