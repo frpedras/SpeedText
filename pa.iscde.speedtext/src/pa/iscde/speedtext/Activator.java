@@ -30,7 +30,6 @@ public class Activator implements BundleActivator  {
 		projectBrowserServices = context.getService(browser);
 		
 		service = context.registerService(Service.class, new ServiceImplementation(), null);
-//		context.registerService(PidescoView.class, speedTestservice, null);
 	}
 
 	public ProjectBrowserServices getProjectBrowserServices() {

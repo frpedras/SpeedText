@@ -1,12 +1,17 @@
 package pa.iscde.speedtext;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ServiceImplementation implements Service{
 
 	@Override
-	public List getList() {
-		return (List)SpeedTextService.getSpeedTextService().getList();
+	public ArrayList getList() {
+		ArrayList<String> ret = new ArrayList<String>();
+		String[] aux = SpeedTextService.getSpeedTextService().getList().getItems();
+		for(int i=0; i<aux.length-1;i++){
+			ret.add(aux[i]);
+		}
+		return ret;
 	}
 
 }

@@ -195,7 +195,7 @@ public class SpeedTextService implements PidescoView {
 					}
 				});
 				
-				new TestSortList().SortList(sugestionList);
+				//new TestSortList().sortList(sugestionList);
 				
 				extraInfo(sugestionList);
 			}

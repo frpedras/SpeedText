@@ -1,8 +1,8 @@
 package pa.iscde.speedtext;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface Service {
 	
-	public List getList();
+	public ArrayList getList();
 }

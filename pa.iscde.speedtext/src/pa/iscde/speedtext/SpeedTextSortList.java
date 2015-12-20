@@ -1,7 +1,7 @@
 package pa.iscde.speedtext;
 
-import org.eclipse.swt.widgets.List;
+import java.util.ArrayList;
 
 public interface SpeedTextSortList {
-	public void SortList(List list);
+	public void sortList(ArrayList<String> list);
 }
