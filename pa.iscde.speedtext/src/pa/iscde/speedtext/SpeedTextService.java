@@ -42,30 +42,19 @@ public class SpeedTextService implements PidescoView {
 	List sugestionList;
 	
 	IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
-	IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.test.textext");
+	IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.speedtext.sortlist");
 	private LinkedList<SpeedTextSortList> extensionResult = new LinkedList<SpeedTextSortList>();
 
 
 	@Override
 	public void createContents(final Composite viewArea, Map<String, Image> imageMap) {
-
-//		IExtension[] extensions = extensionPoint.getExtensions();
-//		for(IExtension e : extensions) {
-//		    IConfigurationElement[] confElements = e.getConfigurationElements();
-//		    for(IConfigurationElement c : confElements) {
-//		        String s = c.getAttribute("name");
-//		        System.out.println(s);
-//		        try {
-//		            Object o = (SpeedTextSortList)c.createExecutableExtension("class");
-//		        } catch (CoreException e1) {
-//		            System.out.println("Não achou nenhum extension point!");
-//		        }
-//		    }
-//		}
+		speedtext = this;
 		
 		IExtension[] extensions = extensionPoint.getExtensions();
+		System.out.println("Extensoes detectadas - " + extensions.length);
 		for (IExtension e : extensions) {
 			IConfigurationElement[] confElements = e.getConfigurationElements();
+			System.out.println("Sorts apanhados - " + confElements.length);
 			for (IConfigurationElement c : confElements) {
 				try {
 					extensionResult.add((SpeedTextSortList) c.createExecutableExtension("class"));

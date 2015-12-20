@@ -3,8 +3,10 @@ package pa.iscde.speedtext;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
 
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
+import pt.iscte.pidesco.projectbrowser.internal.ProjectBrowserServicesImpl;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
 
@@ -15,6 +17,7 @@ public class Activator implements BundleActivator  {
 	private JavaEditorServices javaEditorservice;
 	private ProjectBrowserServices projectBrowserServices;
 	private SpeedTextService speedTestservice;
+	private ServiceRegistration<Service> service;
 	
 	
 	@Override
@@ -26,6 +29,7 @@ public class Activator implements BundleActivator  {
 		ServiceReference<ProjectBrowserServices> browser = context.getServiceReference(ProjectBrowserServices.class);
 		projectBrowserServices = context.getService(browser);
 		
+		service = context.registerService(Service.class, new ServiceImplementation(), null);
 //		context.registerService(PidescoView.class, speedTestservice, null);
 	}
 
