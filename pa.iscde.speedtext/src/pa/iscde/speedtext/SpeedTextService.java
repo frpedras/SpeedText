@@ -289,6 +289,8 @@ public class SpeedTextService implements PidescoView {
 		}
 	}
 	
+	
+	//Extension point: Pedras
 	private void sortlist() {
 		if (!extensionResultSortList.isEmpty())
 			extensionResultSortList.get(0).sortList();	
