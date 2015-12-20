@@ -64,7 +64,7 @@ public class SpeedTextService implements PidescoView {
 				try {
 					if(c.getName().equals("sortlist"))
 						extensionResultSortList.add((SpeedTextSortList) c.createExecutableExtension("class"));
-					if(c.getName().equals("extrainfo"))
+					else if(c.getName().equals("extrainfo"))
 						extensionResultExtraInfo.add((SpeedTextExtraInfo) c.createExecutableExtension("class"));
 					System.out.println("Nome: " + c.getName());
 				} catch (CoreException e1) {
