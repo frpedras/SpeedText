@@ -13,9 +13,10 @@
    </extension>
    <extension
          id="sortlist"
+         name="sortlisttest"
          point="pa.iscde.speedtext.sortlist">
       <sortlist
-            class="pa.iscde.speedtext.SpeedTextSortList"></sortlist>
+            class="pa.iscde.test.testSort"></sortlist>
    </extension>
 
 </plugin>

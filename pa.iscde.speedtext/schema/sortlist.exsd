@@ -18,7 +18,6 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="sortlist"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -34,7 +33,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="name" type="string">
+         <attribute name="speedtextsort" type="string">
             <annotation>
                <documentation>
                   
@@ -47,8 +46,15 @@
       </complexType>
    </element>
 
-   <element name="sortlist">
+   <element name="item">
       <complexType>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="class" type="string">
             <annotation>
                <documentation>

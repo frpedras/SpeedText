@@ -1,9 +1,6 @@
 package pa.iscde.test;
 
 import java.util.ArrayList;
-
-import org.eclipse.swt.widgets.List;
-
 import pa.iscde.speedtext.SpeedTextSortList;
 
 public class testSort implements SpeedTextSortList{
