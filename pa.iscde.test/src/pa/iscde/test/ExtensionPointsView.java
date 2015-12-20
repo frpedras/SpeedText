@@ -25,18 +25,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-
-import pa.iscde.speedtext.Service;
-import pa.iscde.speedtext.SpeedTextService;
 import pt.iscte.pidesco.extensibility.PidescoView;
 
 public class ExtensionPointsView implements PidescoView {
 
 	@Override
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
-		
-		//new testSort().SortList(list);
-		
+				
 		final IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 		
 		viewArea.setLayout(new GridLayout(1, false));
@@ -97,9 +92,6 @@ public class ExtensionPointsView implements PidescoView {
 				IExtensionPoint extPoint = extRegistry.getExtensionPoint(combo.getText());
 				IExtension[] extensions = extPoint.getExtensions();
 				table.setInput(extensions);
-//				Service s = Activator.getTestActivator().getSpeedTestService();
-//				ArrayList list = s.getList();
-//				System.out.println(list.toString());
 			}
 		});
 	}

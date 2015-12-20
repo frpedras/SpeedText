@@ -1,6 +1,7 @@
 package pa.iscde.speedtext;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -282,18 +283,27 @@ public class SpeedTextService implements PidescoView {
 	public void extraInfo(List list){
 		String[]temparray = list.getItems();
 		list.removeAll();
-		for(int i=0; i<temparray.length-1;i++){
+		for(int i=0; i<temparray.length;i++){
 			list.add(temparray[i]+" - "+"banana");
 		}
 	}
 	
 	private void sortlist() {
-		extensionResultSortList.get(0).sortList();	
+		if (!extensionResultSortList.isEmpty())
+			extensionResultSortList.get(0).sortList();	
 	}
 
 	protected List getList(){
 		return sugestionList;
 	}
+	
+	protected void setList(ArrayList<String> listSorted){
+		sugestionList.removeAll();
+		for (String s : listSorted)
+			sugestionList.add(s);
+	}
+	
+	
 	
 	protected static SpeedTextService getSpeedTextService() {
 		return speedtext;
