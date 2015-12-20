@@ -18,5 +18,12 @@
       <sortlist
             class="pa.iscde.test.testSort"></sortlist>
    </extension>
+   <extension
+         point="pa.iscde.speedtext.extrainfo">
+      <extrainfo
+            class="pa.iscde.test.testExtra"
+            name="testextrainfo">
+      </extrainfo>
+   </extension>
 
 </plugin>

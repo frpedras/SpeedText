@@ -2,6 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="sortlist" name="Sort List" schema="schema/sortlist.exsd"/>
+   <extension-point id="extrainfo" name="Extra Info" schema="schema/extrainfo.exsd"/>
    <extension
          id="id1"
          name="name"

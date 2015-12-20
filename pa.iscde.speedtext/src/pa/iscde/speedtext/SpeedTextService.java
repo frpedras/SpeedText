@@ -2,6 +2,7 @@ package pa.iscde.speedtext;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -43,22 +44,28 @@ public class SpeedTextService implements PidescoView {
 	List sugestionList;
 	
 	IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
-	IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.speedtext.sortlist");
+	IExtensionPoint extensionPointSortList = extRegistry.getExtensionPoint("pa.iscde.speedtext.sortlist");
 	private LinkedList<SpeedTextSortList> extensionResultSortList = new LinkedList<SpeedTextSortList>();
+	IExtensionPoint extensionPointExtraInfo = extRegistry.getExtensionPoint("pa.iscde.speedtext.extrainfo");
+	private LinkedList<SpeedTextExtraInfo> extensionResultExtraInfo = new LinkedList<SpeedTextExtraInfo>();
 
-
+	
 	@Override
 	public void createContents(final Composite viewArea, Map<String, Image> imageMap) {
 		speedtext = this;
 		
-		IExtension[] extensions = extensionPoint.getExtensions();
+		IExtension[] extensions = concat(extensionPointSortList.getExtensions(),extensionPointExtraInfo.getExtensions());
+		
 		System.out.println("Extensoes detectadas - " + extensions.length);
 		for (IExtension e : extensions) {
 			IConfigurationElement[] confElements = e.getConfigurationElements();
 			System.out.println("Sorts apanhados - " + confElements.length);
 			for (IConfigurationElement c : confElements) {
 				try {
-					extensionResultSortList.add((SpeedTextSortList) c.createExecutableExtension("class"));
+					if(c.getName().equals("sortlist"))
+						extensionResultSortList.add((SpeedTextSortList) c.createExecutableExtension("class"));
+					if(c.getName().equals("extrainfo"))
+						extensionResultExtraInfo.add((SpeedTextExtraInfo) c.createExecutableExtension("class"));
 					System.out.println("Nome: " + c.getName());
 				} catch (CoreException e1) {
 					e1.printStackTrace();
@@ -196,11 +203,8 @@ public class SpeedTextService implements PidescoView {
 
 					}
 				});
-				
-				//new TestSortList().sortList(sugestionList);
 				sortlist();
-				
-				extraInfo(sugestionList);
+				extraInfo();
 			}
 		});
 
@@ -281,12 +285,14 @@ public class SpeedTextService implements PidescoView {
 	}
 
 	//Extension point: Jorge
-	public void extraInfo(List list){
-		String[]temparray = list.getItems();
-		list.removeAll();
-		for(int i=0; i<temparray.length;i++){
-			list.add(temparray[i]+" - "+"banana");
-		}
+	private void extraInfo(){
+//		String[]temparray = list.getItems();
+//		list.removeAll();
+//		for(int i=0; i<temparray.length;i++){
+//			list.add(temparray[i]+" - "+"banana");
+//		}
+		if (!extensionResultExtraInfo.isEmpty())
+			extensionResultExtraInfo.get(0).extraInfo();
 	}
 	
 	
@@ -312,5 +318,10 @@ public class SpeedTextService implements PidescoView {
 		return speedtext;
 	}
 
+	private <T> T[] concat(T[] first, T[] second) {
+		  T[] result = Arrays.copyOf(first, first.length + second.length);
+		  System.arraycopy(second, 0, result, first.length, second.length);
+		  return result;
+	}
 
 }
