@@ -14,4 +14,9 @@ public class ServiceImplementation implements Service{
 		return ret;
 	}
 
+	@Override
+	public void setList(ArrayList<String> listSorted) {
+		SpeedTextService.getSpeedTextService().setList(listSorted);
+	}
+
 }
