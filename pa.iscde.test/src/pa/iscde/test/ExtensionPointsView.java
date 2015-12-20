@@ -99,10 +99,12 @@ public class ExtensionPointsView implements PidescoView {
 				//table.setInput(extensions);
 				Service s = Activator.getTestActivator().getSpeedTestService();
 				ArrayList list = s.getList();
-				String[] l = (String[])list.toArray();
-				for (String x: l){
-					System.out.println("A testar - " + l);
-				}
+				System.out.println("lista: fwesfsfssf :"+list.toString());
+//				String[] l = (String[])list.toArray();
+//				for (String x: l){
+//					System.out.println("A testar - " + l);
+//				}
+//				
 			}
 		});
 	}

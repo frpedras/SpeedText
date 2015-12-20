@@ -6,7 +6,6 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
-import pt.iscte.pidesco.projectbrowser.internal.ProjectBrowserServicesImpl;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
 

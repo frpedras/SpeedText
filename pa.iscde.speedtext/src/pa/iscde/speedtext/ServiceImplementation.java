@@ -8,7 +8,7 @@ public class ServiceImplementation implements Service{
 	public ArrayList getList() {
 		ArrayList<String> ret = new ArrayList<String>();
 		String[] aux = SpeedTextService.getSpeedTextService().getList().getItems();
-		for(int i=0; i<aux.length-1;i++){
+		for(int i=0; i<aux.length;i++){
 			ret.add(aux[i]);
 		}
 		return ret;
