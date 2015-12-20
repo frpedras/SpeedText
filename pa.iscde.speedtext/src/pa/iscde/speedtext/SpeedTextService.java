@@ -85,6 +85,7 @@ public class SpeedTextService implements PidescoView {
 		sugestionList.setLayoutData(gridData);
 
 
+		
 
 		button.addSelectionListener(new SelectionListener() {
 			@Override
