@@ -1,6 +1,7 @@
 package pa.iscde.speedtext;
 
 
+import java.io.File;
 import java.util.Collection;
 /**
  * Represents an extension point that adds information to the sugestion list
@@ -8,10 +9,10 @@ import java.util.Collection;
 public interface SpeedTextExtraInfo {
 	
 	/**
-	 * Include the element?
-	 * @param element Element to include or not
-	 * @param parent Parent package of the element
-	 * @return true if the element should be included, false otherwise
+	 * Receives the sugestion list and adds information about each element
+	 * @param list Collection of strings to add information
+	 * @param file(class) with the methods/variables of the list
+	 * @return list of new information for methods/variables, must have the same size and order as the param list
 	 */
-	public Collection<String> extraInfo(Collection<String> list);
+	public Collection<String> extraInfo(Collection<String> list, File file);
 }
