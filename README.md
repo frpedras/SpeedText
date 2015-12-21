@@ -1,5 +1,5 @@
 # SpeedText 
-A plugin to Pidesco (IDE created for learning purposes) based on Eclipse autocomplete
+A plugin to [Pidesco](https://github.com/andre-santos-pt/pidesco.git) (IDE created for learning purposes) based on Eclipse autocomplete
 
 About the extensions points:
 
