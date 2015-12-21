@@ -6,7 +6,7 @@
          <meta.schema plugin="pa.iscde.speedtext" id="sortlist" name="Sort List"/>
       </appinfo>
       <documentation>
-         Sort the list as you want in the result from speedtext plugin
+         Sort the suggestion list as you please
       </documentation>
    </annotation>
 
