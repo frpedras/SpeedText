@@ -69,39 +69,39 @@
       </complexType>
    </element>
 
-   <annotation>
-      <appinfo>
-         <meta.section type="since"/>
-      </appinfo>
-      <documentation>
-         [Enter the first release in which this extension point appears.]
-      </documentation>
-   </annotation>
 
    <annotation>
       <appinfo>
          <meta.section type="examples"/>
       </appinfo>
       <documentation>
-         [Enter extension point usage example here.]
+         For example you can use this extension point to show the return type of the methods
       </documentation>
    </annotation>
 
-   <annotation>
-      <appinfo>
-         <meta.section type="apiinfo"/>
-      </appinfo>
-      <documentation>
-         [Enter API information here.]
-      </documentation>
-   </annotation>
 
    <annotation>
       <appinfo>
          <meta.section type="implementation"/>
       </appinfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         Add info+index to each item
+
+public class testExtra implements SpeedTextExtraInfo {
+
+	@Override
+	public Collection&lt;String&gt; extraInfo(Collection&lt;String&gt; list,File file) {
+		System.out.println(&quot;antes: &quot;+list.toString());
+		Object[] aux = list.toArray();
+		list.clear();
+		for(int i=0; i&lt;aux.length;i++){
+			list.add(&quot;info&quot;+i);
+		}
+		System.out.println(&quot;depois: &quot;+list.toString());	
+		return list;
+	}
+
+}
       </documentation>
    </annotation>
 
