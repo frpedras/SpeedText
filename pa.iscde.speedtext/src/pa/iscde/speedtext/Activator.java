@@ -15,8 +15,8 @@ public class Activator implements BundleActivator  {
 	private JavaEditorServices javaEditorservice;
 	private ProjectBrowserServices projectBrowserServices;
 	private SpeedTextService speedTestservice;
-	
-	
+
+
 	@Override
 	public void start(BundleContext context) throws Exception {
 		speedTestActivator = this;
@@ -25,8 +25,6 @@ public class Activator implements BundleActivator  {
 		javaEditorservice = context.getService(editor);
 		ServiceReference<ProjectBrowserServices> browser = context.getServiceReference(ProjectBrowserServices.class);
 		projectBrowserServices = context.getService(browser);
-		
-		context.registerService(Service.class, new ServiceImplementation(), null);
 	}
 
 	public ProjectBrowserServices getProjectBrowserServices() {
@@ -48,12 +46,12 @@ public class Activator implements BundleActivator  {
 	public static Activator getActivator( ){
 		return speedTestActivator;
 	}
-	
+
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		// TODO Auto-generated method stub
 	}
-	
+
 
 
 }

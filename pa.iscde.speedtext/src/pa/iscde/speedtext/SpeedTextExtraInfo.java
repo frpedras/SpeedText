@@ -1,5 +1,7 @@
 package pa.iscde.speedtext;
 
+import java.util.ArrayList;
+
 public interface SpeedTextExtraInfo {
-	public void extraInfo();
+	public ArrayList<String> extraInfo(ArrayList<String> list);
 }

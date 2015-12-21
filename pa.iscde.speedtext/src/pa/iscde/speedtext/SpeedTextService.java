@@ -33,15 +33,13 @@ import pt.iscte.pidesco.projectbrowser.model.PackageElement.Visitor;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
 public class SpeedTextService implements PidescoView {
-	
-	private static SpeedTextService speedtext;
 
 	private JavaEditorServices jeServices;
 	private ProjectBrowserServices pbservices;
 	private File file;
 	private boolean findpoint;
 	private String filter="";
-	List sugestionList;
+	private List sugestionList;
 	
 	IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 	IExtensionPoint extensionPointSortList = extRegistry.getExtensionPoint("pa.iscde.speedtext.sortlist");
@@ -52,7 +50,6 @@ public class SpeedTextService implements PidescoView {
 	
 	@Override
 	public void createContents(final Composite viewArea, Map<String, Image> imageMap) {
-		speedtext = this;
 		
 		IExtension[] extensions = concat(extensionPointSortList.getExtensions(),extensionPointExtraInfo.getExtensions());
 		
@@ -90,9 +87,6 @@ public class SpeedTextService implements PidescoView {
 		gridData.verticalAlignment = SWT.FILL;
 		gridData.grabExcessVerticalSpace = true;
 		sugestionList.setLayoutData(gridData);
-
-
-		
 
 		button.addSelectionListener(new SelectionListener() {
 			@Override
@@ -224,7 +218,7 @@ public class SpeedTextService implements PidescoView {
 		});
 	}
 
-	// Encontra a variavel antes do '.'
+	//Encontra a variavel antes do '.'
 	private String findVarible() {
 		final int cursorpoint = jeServices.getCursorPosition();
 		jeServices.selectText(file, 0, cursorpoint);
@@ -285,37 +279,36 @@ public class SpeedTextService implements PidescoView {
 	}
 
 	//Extension point: Jorge
-	private void extraInfo(){
-//		String[]temparray = list.getItems();
-//		list.removeAll();
-//		for(int i=0; i<temparray.length;i++){
-//			list.add(temparray[i]+" - "+"banana");
-//		}
-		if (!extensionResultExtraInfo.isEmpty())
-			extensionResultExtraInfo.get(0).extraInfo();
+	private void extraInfo(){		
+		if (!extensionResultExtraInfo.isEmpty()){
+			ArrayList<String> aux = toArrayList(sugestionList);	
+			aux = extensionResultExtraInfo.get(0).extraInfo(aux);
+			arrayListToSugestionList(aux);
+		}
 	}
-	
 	
 	//Extension point: Pedras
 	private void sortlist() {
-		if (!extensionResultSortList.isEmpty())
-			extensionResultSortList.get(0).sortList();	
-	}
-
-	protected List getList(){
-		return sugestionList;
+		if (!extensionResultSortList.isEmpty()){
+			ArrayList<String> aux = toArrayList(sugestionList);			
+			aux = extensionResultSortList.get(0).sortList(aux);
+			arrayListToSugestionList(aux);
+		}
 	}
 	
-	protected void setList(ArrayList<String> listSorted){
+	private ArrayList<String> toArrayList(List l){
+		ArrayList<String> aux = new ArrayList<String>();
+		for (String s : sugestionList.getItems()){
+			aux.add(s);
+		}
+		return aux;
+	}
+	
+	private void arrayListToSugestionList(ArrayList<String> a){
 		sugestionList.removeAll();
-		for (String s : listSorted)
+		for (String s : a){
 			sugestionList.add(s);
-	}
-	
-	
-	
-	protected static SpeedTextService getSpeedTextService() {
-		return speedtext;
+		}
 	}
 
 	private <T> T[] concat(T[] first, T[] second) {
