@@ -36,23 +36,23 @@ public class SpeedTextService implements PidescoView {
 
 	private JavaEditorServices jeServices;
 	private ProjectBrowserServices pbservices;
-	private File file;
+	private File file, tempfile;
 	private boolean findpoint;
 	private String filter="";
 	private List sugestionList;
-	
+
 	IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 	IExtensionPoint extensionPointSortList = extRegistry.getExtensionPoint("pa.iscde.speedtext.sortlist");
 	private LinkedList<SpeedTextSortList> extensionResultSortList = new LinkedList<SpeedTextSortList>();
 	IExtensionPoint extensionPointExtraInfo = extRegistry.getExtensionPoint("pa.iscde.speedtext.extrainfo");
 	private LinkedList<SpeedTextExtraInfo> extensionResultExtraInfo = new LinkedList<SpeedTextExtraInfo>();
 
-	
+
 	@Override
 	public void createContents(final Composite viewArea, Map<String, Image> imageMap) {
-		
+
 		IExtension[] extensions = concat(extensionPointSortList.getExtensions(),extensionPointExtraInfo.getExtensions());
-		
+
 		System.out.println("Extensoes detectadas - " + extensions.length);
 		for (IExtension e : extensions) {
 			IConfigurationElement[] confElements = e.getConfigurationElements();
@@ -70,7 +70,7 @@ public class SpeedTextService implements PidescoView {
 
 			}
 		}
-		
+
 		jeServices = Activator.getActivator().getJavaEditorservice(); 
 		pbservices = Activator.getActivator().getProjectBrowserServices();
 
@@ -161,7 +161,7 @@ public class SpeedTextService implements PidescoView {
 								@Override
 								public void visitClass(ClassElement classElement) {
 									if(classElement.getName().equals(node.getType().toString()+".java")){
-										File tempfile=classElement.getFile();
+										tempfile=classElement.getFile();
 										jeServices.parseFile(tempfile, new ASTVisitor() {
 											public boolean visit(MethodDeclaration node) {
 												if(!node.isConstructor() && (node.modifiers().get(0).toString()).equals("public") && node.getName().toString().substring(0,filter.length()).equals(filter)){
@@ -197,6 +197,7 @@ public class SpeedTextService implements PidescoView {
 
 					}
 				});
+
 				sortlist();
 				extraInfo();
 			}
@@ -281,12 +282,21 @@ public class SpeedTextService implements PidescoView {
 	//Extension point: Jorge
 	private void extraInfo(){		
 		if (!extensionResultExtraInfo.isEmpty()){
+			ArrayList<String> auxinfo = toArrayList(sugestionList);	
 			ArrayList<String> aux = toArrayList(sugestionList);	
-			aux = (ArrayList<String>)extensionResultExtraInfo.get(0).extraInfo(aux);
-			arrayListToSugestionList(aux);
+			if (findpoint)
+				auxinfo = (ArrayList<String>)extensionResultExtraInfo.get(0).extraInfo(auxinfo,tempfile);
+			else
+				auxinfo = (ArrayList<String>)extensionResultExtraInfo.get(0).extraInfo(auxinfo,file);
+			if(auxinfo.size()==aux.size()){
+				for(int i=0;i<auxinfo.size();i++){
+					aux.set(i, aux.get(i)+" - "+auxinfo.get(i));
+				}
+				arrayListToSugestionList(aux);
+			}
 		}
 	}
-	
+
 	//Extension point: Pedras
 	private void sortlist() {
 		if (!extensionResultSortList.isEmpty()){
@@ -295,7 +305,7 @@ public class SpeedTextService implements PidescoView {
 			arrayListToSugestionList(aux);
 		}
 	}
-	
+
 	private ArrayList<String> toArrayList(List l){
 		ArrayList<String> aux = new ArrayList<String>();
 		for (String s : sugestionList.getItems()){
@@ -303,7 +313,7 @@ public class SpeedTextService implements PidescoView {
 		}
 		return aux;
 	}
-	
+
 	private void arrayListToSugestionList(ArrayList<String> a){
 		sugestionList.removeAll();
 		for (String s : a){
@@ -312,9 +322,9 @@ public class SpeedTextService implements PidescoView {
 	}
 
 	private <T> T[] concat(T[] first, T[] second) {
-		  T[] result = Arrays.copyOf(first, first.length + second.length);
-		  System.arraycopy(second, 0, result, first.length, second.length);
-		  return result;
+		T[] result = Arrays.copyOf(first, first.length + second.length);
+		System.arraycopy(second, 0, result, first.length, second.length);
+		return result;
 	}
 
 }
