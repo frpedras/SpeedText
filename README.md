@@ -7,3 +7,4 @@ About the extensions points:
 	Implement the interface "SpeedTextSortList" so you can receive the sugestion list. After changing the order you must return it with the same elements.
 - Extra Info:
 	Implement the interface "SpeedTextExtraInfo" so you can receive the sugestion list and the file where the methods/variables can be found. Returns a list with extra informations, must have the same size and order as the list received.
+	
