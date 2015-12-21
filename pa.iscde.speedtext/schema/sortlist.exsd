@@ -51,56 +51,52 @@
          <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  
+                  Not used
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  Class that implements the interface SpeedTextSortList
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java"/>
+                  <meta.attribute kind="java" basedOn=":pa.iscde.speedtext.SpeedTextSortList"/>
                </appinfo>
             </annotation>
          </attribute>
       </complexType>
    </element>
 
-   <annotation>
-      <appinfo>
-         <meta.section type="since"/>
-      </appinfo>
-      <documentation>
-         [Enter the first release in which this extension point appears.]
-      </documentation>
-   </annotation>
 
    <annotation>
       <appinfo>
          <meta.section type="examples"/>
       </appinfo>
       <documentation>
-         [Enter extension point usage example here.]
+         For example you can use this extension point to see the list in alphabetical order, ordered by the size of the strings, variables first and methods after, etc...
       </documentation>
    </annotation>
 
-   <annotation>
-      <appinfo>
-         <meta.section type="apiinfo"/>
-      </appinfo>
-      <documentation>
-         [Enter API information here.]
-      </documentation>
-   </annotation>
 
    <annotation>
       <appinfo>
          <meta.section type="implementation"/>
       </appinfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         Example of a simple implementation that reverts the list index
+
+public class testSort implements SpeedTextSortList{
+	@Override
+	public Collection&lt;String&gt; sortList(Collection&lt;String&gt; list) {
+		Object[] aux = list.toArray();
+		list.clear();
+		for (int x = aux.length-1; x&gt;=0 ; x--){
+			list.add((String) aux[x]);
+		}
+		return list;
+	}
+}
       </documentation>
    </annotation>
 
