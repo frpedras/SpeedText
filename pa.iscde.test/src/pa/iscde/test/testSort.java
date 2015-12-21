@@ -15,6 +15,4 @@ public class testSort implements SpeedTextSortList{
 		}
 		return list;
 	}
-
-
 }
