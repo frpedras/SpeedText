@@ -291,7 +291,7 @@ public class SpeedTextService implements PidescoView {
 	private void sortlist() {
 		if (!extensionResultSortList.isEmpty()){
 			ArrayList<String> aux = toArrayList(sugestionList);			
-			aux = extensionResultSortList.get(0).sortList(aux);
+			aux = (ArrayList<String>)extensionResultSortList.get(0).sortList(aux);
 			arrayListToSugestionList(aux);
 		}
 	}

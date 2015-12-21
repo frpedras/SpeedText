@@ -1,7 +1,8 @@
 package pa.iscde.speedtext;
 
-import java.util.ArrayList;
+
+import java.util.Collection;
 
 public interface SpeedTextSortList {
-	public ArrayList<String> sortList(ArrayList<String> list);
+	public Collection<String> sortList(Collection<String> list);
 }
