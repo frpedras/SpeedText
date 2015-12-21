@@ -6,7 +6,7 @@
          <meta.schema plugin="pa.iscde.speedtext" id="extrainfo" name="Extra Info"/>
       </appinfo>
       <documentation>
-         [Enter description of this extension point.]
+         This extension point adds extra info to the sugestion list
       </documentation>
    </annotation>
 

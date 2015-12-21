@@ -1,13 +1,13 @@
 package pa.iscde.test;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 import pa.iscde.speedtext.SpeedTextExtraInfo;
 
 public class testExtra implements SpeedTextExtraInfo {
 
 	@Override
-	public ArrayList<String> extraInfo(ArrayList<String> list) {
+	public Collection<String> extraInfo(Collection<String> list) {
 		System.out.println("antes: "+list.toString());
 		Object[] aux = list.toArray();
 		list.clear();

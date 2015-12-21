@@ -282,7 +282,7 @@ public class SpeedTextService implements PidescoView {
 	private void extraInfo(){		
 		if (!extensionResultExtraInfo.isEmpty()){
 			ArrayList<String> aux = toArrayList(sugestionList);	
-			aux = extensionResultExtraInfo.get(0).extraInfo(aux);
+			aux = (ArrayList<String>)extensionResultExtraInfo.get(0).extraInfo(aux);
 			arrayListToSugestionList(aux);
 		}
 	}
