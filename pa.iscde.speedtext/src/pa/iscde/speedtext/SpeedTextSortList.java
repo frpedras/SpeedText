@@ -7,10 +7,12 @@ import java.util.Collection;
  * Represents an extension point to sort the sugestion list
  */
 public interface SpeedTextSortList {
+		
 	/**
-	 * Receives the sugestion list and returns it sorted, with the same elements
-	 * @param list Collection of strings to sort
-	 * @return a Collection sorted
+	 * Receives 2 strings and compare them
+	 * @param String a to compare
+	 * @param String b to compare
+	 * @return true if the String a should appear before String b in the suggestion list
 	 */
-	public Collection<String> sortList(Collection<String> list);
+	public boolean compare(String a, String b);
 }

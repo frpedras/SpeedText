@@ -299,11 +299,27 @@ public class SpeedTextService implements PidescoView {
 
 	//Extension point: Pedras
 	private void sortlist() {
-		if (!extensionResultSortList.isEmpty()){
-			ArrayList<String> aux = toArrayList(sugestionList);			
-			aux = (ArrayList<String>)extensionResultSortList.get(0).sortList(aux);
-			arrayListToSugestionList(aux);
+		//Versão antiga
+		//		if (!extensionResultSortList.isEmpty()){
+		//			ArrayList<String> aux = toArrayList(sugestionList);			
+		//			aux = (ArrayList<String>)extensionResultSortList.get(0).sortList(aux);
+		//			arrayListToSugestionList(aux);
+		//		}
+
+		//Versão nova
+		ArrayList<String> result = toArrayList(sugestionList);
+		SpeedTextSortList extension = extensionResultSortList.get(0);
+		for (int x=0; x<sugestionList.getItemCount(); x++){
+			for (int y=x; y<sugestionList.getItemCount(); y++){
+				boolean compareResult = extension.compare(result.get(x), result.get(y));
+				if (compareResult==false){
+					String aux = result.get(x);
+					result.set(x, result.get(y));
+					result.set(y, aux);
+				}
+			}
 		}
+		arrayListToSugestionList(result);
 	}
 
 	private ArrayList<String> toArrayList(List l){
