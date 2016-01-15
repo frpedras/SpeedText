@@ -1,8 +1,6 @@
 package pa.iscde.speedtext;
 
 
-import java.util.Collection;
-
 /**
  * Represents an extension point to sort the sugestion list
  */
@@ -15,4 +13,6 @@ public interface SpeedTextSortList {
 	 * @return true if the String a should appear before String b in the suggestion list
 	 */
 	public boolean compare(String a, String b);
+	
+	public String getName();
 }

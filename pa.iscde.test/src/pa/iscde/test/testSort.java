@@ -13,4 +13,10 @@ public class testSort implements SpeedTextSortList{
 			return false;
 		return true;
 	}
+
+	@Override
+	public String getName() {
+		return "Lenght";
+	}
+
 }

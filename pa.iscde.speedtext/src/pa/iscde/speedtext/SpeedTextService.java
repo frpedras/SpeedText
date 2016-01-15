@@ -23,6 +23,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 
@@ -40,6 +41,7 @@ public class SpeedTextService implements PidescoView {
 	private boolean findpoint;
 	private String filter="";
 	private List sugestionList;
+	private ArrayList<String> sortList = new ArrayList<String>();
 
 	IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 	IExtensionPoint extensionPointSortList = extRegistry.getExtensionPoint("pa.iscde.speedtext.sortlist");
@@ -54,20 +56,21 @@ public class SpeedTextService implements PidescoView {
 		IExtension[] extensions = concat(extensionPointSortList.getExtensions(),extensionPointExtraInfo.getExtensions());
 
 		System.out.println("Extensoes detectadas - " + extensions.length);
+		sortList.add("None");
 		for (IExtension e : extensions) {
 			IConfigurationElement[] confElements = e.getConfigurationElements();
-			System.out.println("Sorts apanhados - " + confElements.length);
 			for (IConfigurationElement c : confElements) {
 				try {
-					if(c.getName().equals("sortlist"))
+					if(c.getName().equals("sortlist")){
 						extensionResultSortList.add((SpeedTextSortList) c.createExecutableExtension("class"));
+						sortList.add(extensionResultSortList.get(extensionResultSortList.size()-1).getName());
+					}
 					else if(c.getName().equals("extrainfo"))
 						extensionResultExtraInfo.add((SpeedTextExtraInfo) c.createExecutableExtension("class"));
 					System.out.println("Nome: " + c.getName());
 				} catch (CoreException e1) {
 					e1.printStackTrace();
 				}
-
 			}
 		}
 
@@ -78,7 +81,12 @@ public class SpeedTextService implements PidescoView {
 		file = jeServices.getOpenedFile();
 		viewArea.setLayout(new GridLayout(2, false));
 		final Button button = new Button(viewArea, SWT.PUSH);
+		final Combo combo = new Combo(viewArea, SWT.BORDER);
+		String[] cenas = {};
+		cenas = sortList.toArray(cenas);
+		combo.setItems(cenas);
 		button.setText("Suggest");
+		combo.setText("Sort");
 		sugestionList = new List(viewArea, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.WRAP);
 		GridData gridData = new GridData();
 		gridData.horizontalSpan = 2;
@@ -147,7 +155,7 @@ public class SpeedTextService implements PidescoView {
 						return true;
 					}
 
-					//--- codigo restaurado, melhorar isto
+					//--- codigo restaurado
 					public boolean visit(final VariableDeclarationStatement node) {
 
 						//Sugere metodos
@@ -198,7 +206,7 @@ public class SpeedTextService implements PidescoView {
 					}
 				});
 
-				sortlist();
+				sortlist(combo);
 				extraInfo();
 			}
 		});
@@ -298,24 +306,19 @@ public class SpeedTextService implements PidescoView {
 	}
 
 	//Extension point: Pedras
-	private void sortlist() {
-		//Versão antiga
-		//		if (!extensionResultSortList.isEmpty()){
-		//			ArrayList<String> aux = toArrayList(sugestionList);			
-		//			aux = (ArrayList<String>)extensionResultSortList.get(0).sortList(aux);
-		//			arrayListToSugestionList(aux);
-		//		}
-
-		//Versão nova
+	private void sortlist(Combo combo) {
 		ArrayList<String> result = toArrayList(sugestionList);
-		SpeedTextSortList extension = extensionResultSortList.get(0);
-		for (int x=0; x<sugestionList.getItemCount(); x++){
-			for (int y=x; y<sugestionList.getItemCount(); y++){
-				boolean compareResult = extension.compare(result.get(x), result.get(y));
-				if (compareResult==false){
-					String aux = result.get(x);
-					result.set(x, result.get(y));
-					result.set(y, aux);
+		SpeedTextSortList extension;
+		if (combo.getSelectionIndex()-1>=0){
+			extension = extensionResultSortList.get(combo.getSelectionIndex()-1);
+			for (int x=0; x<sugestionList.getItemCount(); x++){
+				for (int y=x; y<sugestionList.getItemCount(); y++){
+					boolean compareResult = extension.compare(result.get(x), result.get(y));
+					if (compareResult==false){
+						String aux = result.get(x);
+						result.set(x, result.get(y));
+						result.set(y, aux);
+					}
 				}
 			}
 		}
@@ -342,5 +345,4 @@ public class SpeedTextService implements PidescoView {
 		System.arraycopy(second, 0, result, first.length, second.length);
 		return result;
 	}
-
 }
