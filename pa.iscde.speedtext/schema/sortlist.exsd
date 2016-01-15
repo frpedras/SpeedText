@@ -48,13 +48,6 @@
 
    <element name="item">
       <complexType>
-         <attribute name="name" type="string">
-            <annotation>
-               <documentation>
-                  Not used
-               </documentation>
-            </annotation>
-         </attribute>
          <attribute name="class" type="string">
             <annotation>
                <documentation>
@@ -87,15 +80,15 @@
          Example of a simple implementation that reverts the list index
 
 public class testSort implements SpeedTextSortList{
-	@Override
-	public Collection&lt;String&gt; sortList(Collection&lt;String&gt; list) {
-		Object[] aux = list.toArray();
-		list.clear();
-		for (int x = aux.length-1; x&gt;=0 ; x--){
-			list.add((String) aux[x]);
-		}
-		return list;
-	}
+ @Override
+ public Collection&lt;String&gt; sortList(Collection&lt;String&gt; list) {
+  Object[] aux = list.toArray();
+  list.clear();
+  for (int x = aux.length-1; x&gt;=0 ; x--){
+   list.add((String) aux[x]);
+  }
+  return list;
+ }
 }
       </documentation>
    </annotation>

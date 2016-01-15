@@ -10,9 +10,12 @@ public interface SpeedTextExtraInfo {
 	
 	/**
 	 * Receives the sugestion list and adds information about each element
-	 * @param list Collection of strings to add information
+	 * @param s Collection of strings to add information
 	 * @param file(class) with the methods/variables of the list
 	 * @return list of new information for methods/variables, must have the same size and order as the param list
 	 */
-	public Collection<String> extraInfo(Collection<String> list, File file);
+	public String extraInfo(String s, File file);
+
+	public String getName();
+	
 }

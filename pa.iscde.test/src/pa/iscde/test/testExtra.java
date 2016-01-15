@@ -12,15 +12,13 @@ import pa.iscde.speedtext.SpeedTextExtraInfo;
 public class testExtra implements SpeedTextExtraInfo {
 
 	@Override
-	public Collection<String> extraInfo(Collection<String> list,File file) {
-		System.out.println("antes: "+list.toString());
-		Object[] aux = list.toArray();
-		list.clear();
-		for(int i=0; i<aux.length;i++){
-			list.add("info"+i);
-		}
-		System.out.println("depois: "+list.toString());	
-		return list;
+	public String extraInfo(String s,File file) {
+		String length = s.length()+" chars";
+		return length;
 	}
 
+	@Override
+	public String getName() {
+		return "Chars";
+	}
 }

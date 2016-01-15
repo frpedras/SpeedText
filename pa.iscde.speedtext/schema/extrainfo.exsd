@@ -49,20 +49,13 @@
 
    <element name="item">
       <complexType>
-         <attribute name="name" type="string">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-            </annotation>
-         </attribute>
          <attribute name="class" type="string">
             <annotation>
                <documentation>
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java"/>
+                  <meta.attribute kind="java" basedOn=":pa.iscde.speedtext.SpeedTextExtraInfo"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -89,17 +82,17 @@
 
 public class testExtra implements SpeedTextExtraInfo {
 
-	@Override
-	public Collection&lt;String&gt; extraInfo(Collection&lt;String&gt; list,File file) {
-		System.out.println(&quot;antes: &quot;+list.toString());
-		Object[] aux = list.toArray();
-		list.clear();
-		for(int i=0; i&lt;aux.length;i++){
-			list.add(&quot;info&quot;+i);
-		}
-		System.out.println(&quot;depois: &quot;+list.toString());	
-		return list;
-	}
+ @Override
+ public Collection&lt;String&gt; extraInfo(Collection&lt;String&gt; list,File file) {
+  System.out.println(&quot;antes: &quot;+list.toString());
+  Object[] aux = list.toArray();
+  list.clear();
+  for(int i=0; i&lt;aux.length;i++){
+   list.add(&quot;info&quot;+i);
+  }
+  System.out.println(&quot;depois: &quot;+list.toString()); 
+  return list;
+ }
 
 }
       </documentation>

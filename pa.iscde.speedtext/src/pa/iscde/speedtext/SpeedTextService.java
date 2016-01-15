@@ -42,6 +42,7 @@ public class SpeedTextService implements PidescoView {
 	private String filter="";
 	private List sugestionList;
 	private ArrayList<String> sortList = new ArrayList<String>();
+	private ArrayList<String> extraList = new ArrayList<String>();
 
 	IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 	IExtensionPoint extensionPointSortList = extRegistry.getExtensionPoint("pa.iscde.speedtext.sortlist");
@@ -56,7 +57,8 @@ public class SpeedTextService implements PidescoView {
 		IExtension[] extensions = concat(extensionPointSortList.getExtensions(),extensionPointExtraInfo.getExtensions());
 
 		System.out.println("Extensoes detectadas - " + extensions.length);
-		sortList.add("None");
+		sortList.add("No sort");
+		extraList.add("No extra info");
 		for (IExtension e : extensions) {
 			IConfigurationElement[] confElements = e.getConfigurationElements();
 			for (IConfigurationElement c : confElements) {
@@ -65,8 +67,10 @@ public class SpeedTextService implements PidescoView {
 						extensionResultSortList.add((SpeedTextSortList) c.createExecutableExtension("class"));
 						sortList.add(extensionResultSortList.get(extensionResultSortList.size()-1).getName());
 					}
-					else if(c.getName().equals("extrainfo"))
+					else if(c.getName().equals("extrainfo")){
 						extensionResultExtraInfo.add((SpeedTextExtraInfo) c.createExecutableExtension("class"));
+						extraList.add(extensionResultExtraInfo.get(extensionResultExtraInfo.size()-1).getName());
+					}
 					System.out.println("Nome: " + c.getName());
 				} catch (CoreException e1) {
 					e1.printStackTrace();
@@ -79,17 +83,22 @@ public class SpeedTextService implements PidescoView {
 
 		// Janela
 		file = jeServices.getOpenedFile();
-		viewArea.setLayout(new GridLayout(2, false));
+		viewArea.setLayout(new GridLayout(3, false));
 		final Button button = new Button(viewArea, SWT.PUSH);
-		final Combo combo = new Combo(viewArea, SWT.BORDER);
+		final Combo comboSort = new Combo(viewArea, SWT.BORDER);
+		final Combo comboExtra = new Combo(viewArea, SWT.BORDER);
 		String[] cenas = {};
 		cenas = sortList.toArray(cenas);
-		combo.setItems(cenas);
+		comboSort.setItems(cenas);
+		cenas = extraList.toArray(cenas);
+		comboExtra.setItems(cenas);
+
 		button.setText("Suggest");
-		combo.setText("Sort");
+		comboSort.setText("Sort");
+		comboExtra.setText("ExtraInfo");
 		sugestionList = new List(viewArea, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.WRAP);
 		GridData gridData = new GridData();
-		gridData.horizontalSpan = 2;
+		gridData.horizontalSpan = 3;
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.verticalAlignment = SWT.FILL;
@@ -206,8 +215,8 @@ public class SpeedTextService implements PidescoView {
 					}
 				});
 
-				sortlist(combo);
-				extraInfo();
+				sortlist(comboSort);
+				extraInfo(comboExtra);
 			}
 		});
 
@@ -288,21 +297,24 @@ public class SpeedTextService implements PidescoView {
 	}
 
 	//Extension point: Jorge
-	private void extraInfo(){		
-		if (!extensionResultExtraInfo.isEmpty()){
-			ArrayList<String> auxinfo = toArrayList(sugestionList);	
-			ArrayList<String> aux = toArrayList(sugestionList);	
-			if (findpoint)
-				auxinfo = (ArrayList<String>)extensionResultExtraInfo.get(0).extraInfo(auxinfo,tempfile);
-			else
-				auxinfo = (ArrayList<String>)extensionResultExtraInfo.get(0).extraInfo(auxinfo,file);
-			if(auxinfo.size()==aux.size()){
-				for(int i=0;i<auxinfo.size();i++){
-					aux.set(i, aux.get(i)+" - "+auxinfo.get(i));
+	private void extraInfo(Combo combo){
+		if (combo.getSelectionIndex()-1>=0){
+			ArrayList<String> auxinfo = toArrayList(sugestionList);
+			ArrayList<String> finalinfo= new ArrayList<String>();	
+			if (findpoint){
+				for(String s: auxinfo){
+					//s = s +" - "+ extensionResultExtraInfo.get(combo.getSelectionIndex()-1).extraInfo(s,tempfile);
+					finalinfo.add(s +" - "+ extensionResultExtraInfo.get(combo.getSelectionIndex()-1).extraInfo(s,tempfile));
 				}
-				arrayListToSugestionList(aux);
 			}
+			else{
+				for(String s: auxinfo){
+					finalinfo.add(s +" - "+ extensionResultExtraInfo.get(combo.getSelectionIndex()-1).extraInfo(s,file));
+				}
+			}
+			arrayListToSugestionList(finalinfo);
 		}
+
 	}
 
 	//Extension point: Pedras
