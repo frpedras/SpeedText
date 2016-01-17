@@ -87,11 +87,12 @@ public class SpeedTextService implements PidescoView {
 		final Button button = new Button(viewArea, SWT.PUSH);
 		final Combo comboSort = new Combo(viewArea, SWT.BORDER);
 		final Combo comboExtra = new Combo(viewArea, SWT.BORDER);
-		String[] cenas = {};
-		cenas = sortList.toArray(cenas);
-		comboSort.setItems(cenas);
-		cenas = extraList.toArray(cenas);
-		comboExtra.setItems(cenas);
+		String[] sortListArray = new String[sortList.size()];
+		sortListArray = sortList.toArray(sortListArray);
+		comboSort.setItems(sortListArray);
+		String[] extraListArray = new String[extraList.size()];
+		extraListArray = extraList.toArray(extraListArray);
+		comboExtra.setItems(extraListArray);
 
 		button.setText("Suggest");
 		comboSort.setText("Sort");

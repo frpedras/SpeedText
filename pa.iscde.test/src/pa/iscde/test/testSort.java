@@ -16,7 +16,7 @@ public class testSort implements SpeedTextSortList{
 
 	@Override
 	public String getName() {
-		return "Lenght";
+		return "Length";
 	}
 
 }

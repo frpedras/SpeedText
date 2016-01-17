@@ -77,18 +77,25 @@
          <meta.section type="implementation"/>
       </appinfo>
       <documentation>
-         Example of a simple implementation that reverts the list index
+         import pa.iscde.speedtext.SpeedTextSortList;
 
 public class testSort implements SpeedTextSortList{
- @Override
- public Collection&lt;String&gt; sortList(Collection&lt;String&gt; list) {
-  Object[] aux = list.toArray();
-  list.clear();
-  for (int x = aux.length-1; x&gt;=0 ; x--){
-   list.add((String) aux[x]);
-  }
-  return list;
- }
+
+	@Override
+	public boolean compare(String a, String b) {
+		//Ascending order by the size of strings
+		if (a.length()&gt;b.length())
+			return false;
+		else if(a.length()==b.length())
+			return false;
+		return true;
+	}
+
+	@Override
+	public String getName() {
+		return &quot;Length&quot;;
+	}
+
 }
       </documentation>
    </annotation>
