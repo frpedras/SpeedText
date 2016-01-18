@@ -9,10 +9,10 @@ import java.util.Collection;
 public interface SpeedTextExtraInfo {
 	
 	/**
-	 * Receives the sugestion list and adds information about each element
-	 * @param s Collection of strings to add information
+	 * Receives a String of the sugestion list and adds information about this element
+	 * @param s String name of method/variable
 	 * @param file(class) with the methods/variables of the list
-	 * @return list of new information for methods/variables, must have the same size and order as the param list
+	 * @return String of new information for the methods/variable
 	 */
 	public String extraInfo(String s, File file);
 
